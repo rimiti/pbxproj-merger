@@ -5,6 +5,7 @@ import (
   "fmt"
   "bufio"
   "log"
+  "bytes"
 )
 
 func main() {
@@ -26,7 +27,13 @@ func main() {
   defer outFile.Close()
 
   for scanner.Scan() {
-    fmt.Fprintf(outFile, scanner.Text(), "\n")
-    // fmt.Println("=====>", scanner.Text())
+    var buffer bytes.Buffer
+    buffer.WriteString(scanner.Text())
+    buffer.WriteString("\n")
+    fmt.Fprintf(outFile, buffer.String())
   }
+
+  // Close files
+  inFile.Close()
+  outFile.Close()
 }
